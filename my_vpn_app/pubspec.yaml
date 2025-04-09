@@ -35,6 +35,8 @@ dependencies:
   openvpn_flutter: ^1.3.4 #Проверь актуальную версию на pub.de
   lucide_icons: ^0.244.0
   app_links: ^3.4.3
+  http: ^1.3.0
+  shared_preferences: ^2.5.3
 
 dev_dependencies:
   flutter_test:
