@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 import 'package:openvpn_flutter/openvpn_flutter.dart';
@@ -13,6 +14,26 @@ class VPNHomeScreen extends StatefulWidget {
 
   @override
   State<VPNHomeScreen> createState() => _VPNHomeScreenState();
+}
+
+void main() {
+  runApp(const MyApp());
+}
+
+class MyApp extends StatelessWidget {
+  const MyApp({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      theme: ThemeData.dark().copyWith(
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
+        useMaterial3: true,
+      ),
+      home: const VPNHomeScreen(),
+    );
+  }
 }
 
 class _VPNHomeScreenState extends State<VPNHomeScreen> {
@@ -75,7 +96,7 @@ class _VPNHomeScreenState extends State<VPNHomeScreen> {
     try {
       final stored = await _loadStoredVpnConfig();
       if (stored == null) return _showError("Сначала введите конфигурацию через настройки");
-
+      // debugPrint("Connecting to VPN with config:\n$stored['config']");
       await engine.connect(
         stored['config']!,
         "VPN Server",
@@ -317,9 +338,14 @@ class Ticker {
 
 
 Future<String> loadVPNConfig(String configUrl) async {
-  final response = await http.get(Uri.parse("https://api.yourbrand.com/vpn-config?id=$configUrl"));
+  final response = await http.get(Uri.parse("http://185.58.207.121:8000/vpn-config?id=$configUrl"));
+  final jsonMap = json.decode(response.body);
+  final rawConfig = jsonMap['config']; // строка с \n
+
+  final properConfig = rawConfig.replaceAll(r'\n', '\n'); // ← ключевая строка
+
   if (response.statusCode == 200) {
-    return response.body;
+    return properConfig;
   } else {
     throw Exception("Не удалось загрузить конфигурацию VPN");
   }
