@@ -1,40 +1,12 @@
-import 'dart:io';
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:lucide_icons/lucide_icons.dart';
 import 'package:openvpn_flutter/openvpn_flutter.dart';
 import 'package:flutter/services.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 import 'package:http/http.dart' as http;
-import 'package:shared_preferences/shared_preferences.dart';
-
-Future<String> loadVPNConfig(String configUrl) async {
-  final response = await http.get(Uri.parse("https://api.yourbrand.com/vpn-config?id=$configUrl"));
-  if (response.statusCode == 200) {
-    return response.body;
-  } else {
-    throw Exception("Не удалось загрузить конфигурацию VPN");
-  }
-}
-
-void main() {
-  runApp(const MyApp());
-}
-
-class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData.dark().copyWith(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
-        useMaterial3: true,
-      ),
-      home: const VPNHomeScreen(),
-    );
-  }
-}
+import 'dart:io';
 
 class VPNHomeScreen extends StatefulWidget {
   const VPNHomeScreen({Key? key}) : super(key: key);
@@ -47,15 +19,33 @@ class _VPNHomeScreenState extends State<VPNHomeScreen> {
   late OpenVPN engine;
   String stage = "Disconnected";
   bool isLoading = false;
-  String? configUrl;
+  Duration connectionDuration = const Duration(seconds: 0);
+  late final Stopwatch _stopwatch;
+  late final Ticker _ticker;
 
   @override
   void initState() {
     super.initState();
+    _stopwatch = Stopwatch();
+    _ticker = Ticker((_) {
+      if (_stopwatch.isRunning) {
+        setState(() {
+          connectionDuration = _stopwatch.elapsed;
+        });
+      }
+    })..start();
+
     engine = OpenVPN(
       onVpnStageChanged: (data, raw) => setState(() {
         stage = raw;
         isLoading = false;
+        if (raw.toLowerCase() == 'connected') {
+          _stopwatch.reset();
+          _stopwatch.start();
+        } else {
+          _stopwatch.stop();
+          connectionDuration = Duration.zero;
+        }
       }),
     );
     _initializeVPN();
@@ -80,7 +70,6 @@ class _VPNHomeScreenState extends State<VPNHomeScreen> {
       return;
     }
 
-    if (Platform.isAndroid) await engine.requestPermissionAndroid();
     setState(() => isLoading = true);
 
     try {
@@ -221,11 +210,14 @@ class _VPNHomeScreenState extends State<VPNHomeScreen> {
   @override
   Widget build(BuildContext context) {
     final isConnected = stage.toLowerCase() == "connected";
+    final Color mainColor = isConnected ? Colors.greenAccent : Colors.redAccent;
+
     return Scaffold(
+      backgroundColor: Colors.black,
       appBar: AppBar(
-        title: const Text('VPN Connection', style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white)),
-        centerTitle: true,
         backgroundColor: Colors.black,
+        centerTitle: true,
+        title: const Text('Welcome', style: TextStyle(color: Colors.white)),
         actions: [
           IconButton(
             icon: const Icon(LucideIcons.settings, color: Colors.white),
@@ -233,47 +225,103 @@ class _VPNHomeScreenState extends State<VPNHomeScreen> {
           ),
         ],
       ),
-      body: Center(
-        child: Padding(
-          padding: const EdgeInsets.all(20.0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Icon(
-                isConnected ? LucideIcons.shieldCheck : LucideIcons.shieldAlert,
-                size: 100,
-                color: isConnected ? Colors.green : Colors.red,
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          if (isConnected)
+            Padding(
+              padding: const EdgeInsets.only(bottom: 20),
+              child: Text(
+                _formatDuration(connectionDuration),
+                style: const TextStyle(color: Colors.white70, fontSize: 24),
               ),
-              const SizedBox(height: 20),
-              Text(
-                "Status: $stage",
-                style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-                  fontWeight: FontWeight.bold,
-                  color: Colors.white,
+            ),
+          Center(
+            child: Stack(
+              alignment: Alignment.center,
+              children: [
+                SizedBox(
+                  width: 200,
+                  height: 200,
+                  child: CircularProgressIndicator(
+                    value: 1,
+                    strokeWidth: 12,
+                    valueColor: AlwaysStoppedAnimation<Color>(mainColor),
+                    backgroundColor: Colors.grey.shade900,
+                  ),
                 ),
-              ),
-              const SizedBox(height: 30),
-              ElevatedButton.icon(
-                onPressed: isLoading ? null : _toggleVPN,
-                icon: isLoading
-                    ? const SizedBox(
-                    width: 24, height: 24, child: CircularProgressIndicator(strokeWidth: 2, color: Colors.white))
-                    : Icon(isConnected ? LucideIcons.stopCircle : LucideIcons.play, color: Colors.white),
-                label: Text(
-                  isConnected ? "Disconnect" : "Connect",
-                  style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 18, color: Colors.white),
+                IconButton(
+                  iconSize: 80,
+                  icon: Icon(Icons.power_settings_new, color: mainColor),
+                  onPressed: isLoading ? null : _toggleVPN,
                 ),
-                style: ElevatedButton.styleFrom(
-                  padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 50),
-                  backgroundColor: isConnected ? Colors.redAccent : Colors.blueAccent,
-                ),
-              ),
+              ],
+            ),
+          ),
+          const SizedBox(height: 40),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: const [
+              _SpeedTile(label: "Download", speed: "--"),
+              _SpeedTile(label: "Upload", speed: "--"),
             ],
           ),
-        ),
+        ],
       ),
-      backgroundColor: Colors.black,
     );
+  }
+
+  String _formatDuration(Duration duration) {
+    String twoDigits(int n) => n.toString().padLeft(2, '0');
+    final minutes = twoDigits(duration.inMinutes.remainder(60));
+    final seconds = twoDigits(duration.inSeconds.remainder(60));
+    final hours = twoDigits(duration.inHours);
+    return "$hours:$minutes:$seconds";
+  }
+}
+
+class _SpeedTile extends StatelessWidget {
+  final String label;
+  final String speed;
+
+  const _SpeedTile({required this.label, required this.speed});
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        Text(label, style: const TextStyle(color: Colors.white54)),
+        const SizedBox(height: 4),
+        Text(speed, style: const TextStyle(color: Colors.white, fontSize: 18)),
+        const Text("MB/s", style: TextStyle(color: Colors.white30, fontSize: 12)),
+      ],
+    );
+  }
+}
+
+class Ticker {
+  Ticker(this.onTick);
+  final void Function(Duration) onTick;
+  late final Timer _timer;
+
+  void start() {
+    _timer = Timer.periodic(const Duration(seconds: 1), (Timer t) {
+      onTick(Duration(seconds: t.tick));
+    });
+  }
+
+  void dispose() {
+    _timer.cancel();
+  }
+}
+
+
+Future<String> loadVPNConfig(String configUrl) async {
+  final response = await http.get(Uri.parse("https://api.yourbrand.com/vpn-config?id=$configUrl"));
+  if (response.statusCode == 200) {
+    return response.body;
+  } else {
+    throw Exception("Не удалось загрузить конфигурацию VPN");
   }
 }
 
