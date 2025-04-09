@@ -7,3 +7,9 @@ class GenerateIDRequest(BaseModel):
 
 class VPNConfigResponse(BaseModel):
     config: str
+
+class GenerateClientRequest(BaseModel):
+    tg_id: int
+
+class UploadClientRequest(BaseModel):
+    file_name: str
