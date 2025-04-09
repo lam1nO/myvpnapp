@@ -1,8 +1,8 @@
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import select
-from models import VPNConfig
-from database import get_session
+from db.models import VPNConfig
+from db.database import get_session
 from utils.id_generator import generate_config_id
 from schemas import GenerateIDRequest
 from datetime import datetime, timedelta
