@@ -17,6 +17,7 @@ import subprocess
 import base64
 import hashlib
 import boto3
+import requests
 
 # Настройка логгера
 logger = logging.getLogger(__name__)
@@ -89,8 +90,11 @@ async def generate_client(
     digest = hashlib.sha256(str(tg_id).encode()).digest()
     client_name = base64.urlsafe_b64encode(digest).decode('utf-8')[:16]
     
-    cmd = f"printf '1\n{client_name}\n1\n' | sudo /scripts/openvpn-install.sh"
-    subprocess.run(cmd, shell=True, check=True)
+    try:
+        requests.post("http://185.58.207.121:8080/run-script", params={"client_name": client_name})
+    except Exception as e:
+        logger.error("Ошибка при создании .ovpn файла, {e}")
+        raise HTTPException(status_code=500)
 
     new_device = Device(
         id=str(uuid.uuid4()),
