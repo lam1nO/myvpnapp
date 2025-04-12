@@ -22,4 +22,4 @@ class Device(Base):
 
     id: Mapped[str] = mapped_column(primary_key=True)
     user_id: Mapped[int] = mapped_column(ForeignKey("users.id"))
-    file_name: Mapped[str]
+    client_name: Mapped[str]

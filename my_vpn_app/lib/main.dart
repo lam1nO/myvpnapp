@@ -8,6 +8,17 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 import 'package:http/http.dart' as http;
 import 'dart:io';
+import 'package:flutter/services.dart' show rootBundle;
+
+Future<String> loadLocalVPNConfig() async {
+  try {
+    final rawConfig = await rootBundle.loadString('assets/emul_ovpn.ovpn');
+    final properConfig = rawConfig.replaceAll(r'\n', '\n');
+    return properConfig;
+  } catch (e) {
+    throw Exception("Не удалось загрузить локальный .ovpn файл: $e");
+  }
+}
 
 class VPNHomeScreen extends StatefulWidget {
   const VPNHomeScreen({Key? key}) : super(key: key);
@@ -58,14 +69,16 @@ class _VPNHomeScreenState extends State<VPNHomeScreen> {
 
     engine = OpenVPN(
       onVpnStageChanged: (data, raw) => setState(() {
+        final lowerRaw = raw.toLowerCase();
         stage = raw;
-        isLoading = false;
-        if (raw.toLowerCase() == 'connected') {
+        if (lowerRaw == 'connected') {
           _stopwatch.reset();
           _stopwatch.start();
-        } else {
+          isLoading = false;
+        } else if (lowerRaw == 'disconnected' || lowerRaw == 'idle') {
           _stopwatch.stop();
           connectionDuration = Duration.zero;
+          isLoading = false;
         }
       }),
     );
@@ -93,20 +106,33 @@ class _VPNHomeScreenState extends State<VPNHomeScreen> {
 
     setState(() => isLoading = true);
 
+    // try {
+    //   final stored = await _loadStoredVpnConfig();
+    //   if (stored == null) return _showError("Сначала введите конфигурацию через настройки");
+    //   // debugPrint("Connecting to VPN with config:\n$stored['config']");
+    //   await engine.connect(
+    //     stored['config']!,
+    //     "VPN Server",
+    //     username: vpnUsername,
+    //     password: vpnPassword,
+    //     certIsRequired: true,
+    //   );
+    // } catch (e) {
+    //   _showError("Ошибка подключения: $e");
+    // } finally {
+    //   setState(() => isLoading = false);
+    // }
     try {
-      final stored = await _loadStoredVpnConfig();
-      if (stored == null) return _showError("Сначала введите конфигурацию через настройки");
-      // debugPrint("Connecting to VPN with config:\n$stored['config']");
+      final config = await loadLocalVPNConfig();
       await engine.connect(
-        stored['config']!,
-        "VPN Server",
+        config,
+        "Local VPN",
         username: vpnUsername,
         password: vpnPassword,
         certIsRequired: true,
       );
     } catch (e) {
       _showError("Ошибка подключения: $e");
-    } finally {
       setState(() => isLoading = false);
     }
   }
@@ -240,45 +266,119 @@ class _VPNHomeScreenState extends State<VPNHomeScreen> {
         centerTitle: true,
         title: const Text('Welcome', style: TextStyle(color: Colors.white)),
         actions: [
-          IconButton(
+          PopupMenuButton<int>(
             icon: const Icon(LucideIcons.settings, color: Colors.white),
-            onPressed: _showConfigOptions,
-          ),
+            color: Colors.grey[900],
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(12),
+            ),
+            offset: const Offset(0, 50), // смещение вниз под иконку
+            itemBuilder: (context) => [
+              PopupMenuItem(
+                value: 1,
+                child: Row(
+                  children: const [
+                    Icon(LucideIcons.clipboardPaste, color: Colors.white),
+                    SizedBox(width: 8),
+                    Text("Вставить с буфера", style: TextStyle(color: Colors.white)),
+                  ],
+                ),
+              ),
+              PopupMenuItem(
+                value: 2,
+                child: Row(
+                  children: const [
+                    Icon(LucideIcons.keyboard, color: Colors.white),
+                    SizedBox(width: 8),
+                    Text("Вставить вручную", style: TextStyle(color: Colors.white)),
+                  ],
+                ),
+              ),
+              PopupMenuItem(
+                value: 3,
+                child: Row(
+                  children: const [
+                    Icon(LucideIcons.trash2, color: Colors.redAccent),
+                    SizedBox(width: 8),
+                    Text("Сбросить конфигурацию", style: TextStyle(color: Colors.redAccent)),
+                  ],
+                ),
+              ),
+            ],
+            onSelected: (value) {
+              switch (value) {
+                case 1:
+                  _pasteFromClipboard();
+                  break;
+                case 2:
+                  _showManualEntryDialog();
+                  break;
+                case 3:
+                  _resetConfig();
+                  break;
+              }
+            },
+          )
+
         ],
       ),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          if (isConnected)
-            Padding(
-              padding: const EdgeInsets.only(bottom: 20),
-              child: Text(
-                _formatDuration(connectionDuration),
-                style: const TextStyle(color: Colors.white70, fontSize: 24),
-              ),
-            ),
-          Center(
-            child: Stack(
-              alignment: Alignment.center,
-              children: [
-                SizedBox(
-                  width: 200,
-                  height: 200,
-                  child: CircularProgressIndicator(
-                    value: 1,
-                    strokeWidth: 12,
-                    valueColor: AlwaysStoppedAnimation<Color>(mainColor),
-                    backgroundColor: Colors.grey.shade900,
+          Padding(
+            padding: const EdgeInsets.only(bottom: 20),
+            child: SizedBox(
+              height: 30,
+              child: Center(
+                child: AnimatedOpacity(
+                  opacity: isConnected ? 1.0 : 0.0,
+                  duration: const Duration(milliseconds: 300),
+                  child: Text(
+                    _formatDuration(connectionDuration),
+                    style: const TextStyle(color: Colors.white70, fontSize: 24),
                   ),
                 ),
-                IconButton(
-                  iconSize: 80,
-                  icon: Icon(Icons.power_settings_new, color: mainColor),
-                  onPressed: isLoading ? null : _toggleVPN,
-                ),
-              ],
+              ),
             ),
           ),
+          Center(
+            child: GestureDetector(
+              onTap: isLoading ? null : _toggleVPN,
+              child: AnimatedContainer(
+                duration: const Duration(milliseconds: 300),
+                curve: Curves.easeInOut,
+                width: 200,
+                height: 200,
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: Colors.grey.shade900,
+                  boxShadow: isLoading
+                      ? [
+                    BoxShadow(
+                      color: Colors.blueAccent.withOpacity(0.6),
+                      spreadRadius: 4,
+                      blurRadius: 16,
+                    )
+                  ]
+                      : [],
+                ),
+                child: Center(
+                  child: AnimatedSwitcher(
+                    duration: const Duration(milliseconds: 300),
+                    child: isLoading
+                        ? const _SpinningLoader(key: ValueKey('loader'))
+                        : Icon(Icons.power_settings_new,
+                        key: const ValueKey('power'),
+                        color: stage.toLowerCase() == 'connected'
+                            ? Colors.greenAccent
+                            : Colors.redAccent,
+                        size: 80),
+                  ),
+                ),
+              ),
+            ),
+          ),
+
           const SizedBox(height: 40),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -336,9 +436,46 @@ class Ticker {
   }
 }
 
+class _SpinningLoader extends StatefulWidget {
+  const _SpinningLoader({Key? key}) : super(key: key);
+
+  @override
+  State<_SpinningLoader> createState() => _SpinningLoaderState();
+}
+
+class _SpinningLoaderState extends State<_SpinningLoader>
+    with SingleTickerProviderStateMixin {
+  late final AnimationController _controller;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = AnimationController(
+      duration: const Duration(seconds: 1),
+      vsync: this,
+    )..repeat();
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return RotationTransition(
+      turns: _controller,
+      child: const Icon(Icons.sync, color: Colors.blueAccent, size: 64),
+    );
+  }
+}
+
+
+
 
 Future<String> loadVPNConfig(String configUrl) async {
-  final response = await http.get(Uri.parse("http://185.58.207.121:8000/vpn-config?id=$configUrl"));
+  final response = await http.get(Uri.parse("http://192.168.1.11:8000/vpn-config?id=$configUrl"));
   final jsonMap = json.decode(response.body);
   final rawConfig = jsonMap['config']; // строка с \n
 

@@ -86,6 +86,7 @@ async def generate_client(
 ):
     # TODO: связать client_name и tg_id в БД
     tg_id = payload.tg_id
+    human_name = payload.human_name
 
     digest = hashlib.sha256(str(tg_id).encode()).digest()
     client_name = base64.urlsafe_b64encode(digest).decode('utf-8')[:16]
@@ -99,7 +100,8 @@ async def generate_client(
     new_device = Device(
         id=str(uuid.uuid4()),
         user_id=tg_id,
-        file_name=client_name
+        client_name=client_name,
+        human_name=human_name,
     )
     session.add(new_device)
     await session.commit()
