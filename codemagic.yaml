@@ -3,16 +3,10 @@ workflows:
     name: Build iOS VPN app
     environment:
       flutter: "3.29.2"
-      vars:
-        BUNDLE_ID: "com.example.myVpnApp"
-        XCODE_WORKSPACE: "Runner.xcworkspace"
-        XCODE_SCHEME: "Runner"
     scripts:
       - name: Install Flutter dependencies
-        script: |
-          flutter pub get
-      - name: Build IPA
-        script: |
-          flutter build ios --release --no-codesign
+        script: flutter pub get
+      - name: Build unsigned IPA
+        script: flutter build ios --release --no-codesign
     artifacts:
-      - build/ios/ipa/*.ipa
+      - build/ios/iphoneos/Runner.app
