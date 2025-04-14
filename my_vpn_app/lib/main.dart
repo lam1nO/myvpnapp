@@ -9,6 +9,8 @@ import 'package:lucide_icons/lucide_icons.dart';
 import 'package:http/http.dart' as http;
 import 'dart:io';
 import 'package:flutter/services.dart' show rootBundle;
+import 'package:flutter/foundation.dart';
+
 
 Future<String> loadLocalVPNConfig() async {
   try {
@@ -28,6 +30,10 @@ class VPNHomeScreen extends StatefulWidget {
 }
 
 void main() {
+  FlutterError.onError = (FlutterErrorDetails details) {
+    if (kReleaseMode) return; // в релизе ничего не показываем
+    FlutterError.presentError(details);
+  };
   runApp(const MyApp());
 }
 
@@ -54,6 +60,10 @@ class _VPNHomeScreenState extends State<VPNHomeScreen> {
   Duration connectionDuration = const Duration(seconds: 0);
   late final Stopwatch _stopwatch;
   late final Ticker _ticker;
+  int? downloaded = 0;
+  int? uploaded = 0;
+  Timer? bytesTimer;
+
 
   @override
   void initState() {
@@ -66,7 +76,6 @@ class _VPNHomeScreenState extends State<VPNHomeScreen> {
         });
       }
     })..start();
-
     engine = OpenVPN(
       onVpnStageChanged: (data, raw) => setState(() {
         final lowerRaw = raw.toLowerCase();
@@ -81,8 +90,20 @@ class _VPNHomeScreenState extends State<VPNHomeScreen> {
           isLoading = false;
         }
       }),
+        onVpnStatusChanged: (data) => setState(() {
+          String? bytesIn = data?.byteIn;
+          String? bytesOut = data?.byteOut;
+          downloaded = int.tryParse(bytesIn ?? '0');
+          uploaded = int.tryParse(bytesOut ?? '0');
+        })
     );
     _initializeVPN();
+  }
+
+  @override
+  void dispose() {
+    bytesTimer?.cancel();
+    super.dispose();
   }
 
   Future<void> _initializeVPN() async {
@@ -103,38 +124,43 @@ class _VPNHomeScreenState extends State<VPNHomeScreen> {
       engine.disconnect();
       return;
     }
+    if (isLoading) {
+      setState(() => isLoading = false);
+      engine.disconnect();
+      return;
+    }
 
     setState(() => isLoading = true);
 
-    // try {
-    //   final stored = await _loadStoredVpnConfig();
-    //   if (stored == null) return _showError("Сначала введите конфигурацию через настройки");
-    //   // debugPrint("Connecting to VPN with config:\n$stored['config']");
-    //   await engine.connect(
-    //     stored['config']!,
-    //     "VPN Server",
-    //     username: vpnUsername,
-    //     password: vpnPassword,
-    //     certIsRequired: true,
-    //   );
-    // } catch (e) {
-    //   _showError("Ошибка подключения: $e");
-    // } finally {
-    //   setState(() => isLoading = false);
-    // }
     try {
-      final config = await loadLocalVPNConfig();
+      final stored = await _loadStoredVpnConfig();
+      if (stored == null) return _showError("Сначала введите конфигурацию через настройки");
+      // debugPrint("Connecting to VPN with config:\n$stored['config']");
       await engine.connect(
-        config,
-        "Local VPN",
+        stored['config']!,
+        "VPN Server",
         username: vpnUsername,
         password: vpnPassword,
         certIsRequired: true,
       );
     } catch (e) {
       _showError("Ошибка подключения: $e");
+    } finally {
       setState(() => isLoading = false);
     }
+    // try {
+    //   final config = await loadLocalVPNConfig();
+    //   await engine.connect(
+    //     config,
+    //     "Local VPN",
+    //     username: vpnUsername,
+    //     password: vpnPassword,
+    //     certIsRequired: true,
+    //   );
+    // } catch (e) {
+    //   _showError("Ошибка подключения: $e");
+    //   setState(() => isLoading = false);
+    // }
   }
 
   void _showConfigOptions() => showModalBottomSheet(
@@ -147,7 +173,7 @@ class _VPNHomeScreenState extends State<VPNHomeScreen> {
       children: [
         _buildBottomSheetItem("Вставить с буфера", LucideIcons.clipboardPaste, _pasteFromClipboard),
         _buildBottomSheetItem("Вставить вручную", LucideIcons.keyboard, _showManualEntryDialog),
-        _buildBottomSheetItem("Сбросить конфигурацию", LucideIcons.trash2, _resetConfig),
+        _buildBottomSheetItem("Сбросить конфигурацию", LucideIcons.trash2, () => _resetConfig(context)),
       ],
     ),
   );
@@ -176,13 +202,13 @@ class _VPNHomeScreenState extends State<VPNHomeScreen> {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        backgroundColor: Colors.grey[900],
-        title: const Text("Введите код конфигурации", style: TextStyle(color: Colors.white)),
+        backgroundColor: Color(0xFF0F111F),
+        title: const Text("Введите ID конфигурации", style: TextStyle(color: Colors.white)),
         content: TextField(
           controller: controller,
           style: const TextStyle(color: Colors.white),
           decoration: const InputDecoration(
-            hintText: "Пример: alpha-test-123",
+            hintText: "Введите ID...",
             hintStyle: TextStyle(color: Colors.grey),
           ),
         ),
@@ -247,38 +273,204 @@ class _VPNHomeScreenState extends State<VPNHomeScreen> {
     return null;
   }
 
-  Future<void> _resetConfig() async {
+  void _showCustomSnackBar(BuildContext context, String message) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(
+          message,
+          style: const TextStyle(
+            color: Colors.white,
+            fontSize: 16,
+            fontWeight: FontWeight.w400,
+          ),
+        ),
+        backgroundColor: const Color(0xFF0F111F),
+        behavior: SnackBarBehavior.floating,
+        margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(25),
+        ),
+        elevation: 10,
+        duration: const Duration(seconds: 2),
+      ),
+    );
+  }
+  Future<void> _resetConfig(BuildContext context) async {
     final prefs = await SharedPreferences.getInstance();
     await prefs.remove('vpn_config_id');
     await prefs.remove('vpn_config_content');
-    _showError("Конфигурация сброшена");
+
+    String message = "Конфигурация сброшена";
+    _showCustomSnackBar(context, "Конфигурация сброшена");
   }
+
 
   @override
   Widget build(BuildContext context) {
     final isConnected = stage.toLowerCase() == "connected";
     final Color mainColor = isConnected ? Colors.greenAccent : Colors.redAccent;
 
+    String _formatBytes(int? bytes) {
+      if (bytes == null) return "0.00";
+
+      // final parsed = int.tryParse(bytes);
+      // if (parsed == null) return "0.00";
+
+      final mb = bytes / (1024 * 1024);
+      return mb.toStringAsFixed(2);
+    }
+
+
+    Widget _buildBodyContent() {
+      return Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          ConnectionStatusText(
+            isConnected: isConnected,
+            isLoading: isLoading,
+            connectionDuration: connectionDuration,
+          ),
+          Center(
+            child: GestureDetector(
+              onTap: _toggleVPN,
+              child: Stack(
+                alignment: Alignment.center,
+                children: [
+                  // Пульсация вокруг кнопки во время загрузки
+                  if (isLoading)
+                    TweenAnimationBuilder<double>(
+                      tween: Tween<double>(begin: 0.9, end: 1.4),
+                      duration: const Duration(seconds: 1),
+                      curve: Curves.easeInOut,
+                      builder: (context, scale, child) {
+                        return Opacity(
+                          opacity: 1.4 - scale,
+                          child: Transform.scale(
+                            scale: scale,
+                            child: Container(
+                              width: 200,
+                              height: 200,
+                              decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                color: Colors.blueAccent.withOpacity(0.3),
+                              ),
+                            ),
+                          ),
+                        );
+                      },
+                      onEnd: () {
+                        // Зацикливаем
+                        WidgetsBinding.instance.addPostFrameCallback((_) {
+                          if (mounted && isLoading) setState(() {});
+                        });
+                      },
+                    ),
+
+                  // Основная кнопка
+                  AnimatedContainer(
+                    duration: const Duration(milliseconds: 300),
+                    curve: Curves.easeInOut,
+                    width: 200,
+                    height: 200,
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: Colors.grey.shade900,
+                      boxShadow: isLoading
+                          ? [
+                        BoxShadow(
+                          color: Colors.blueAccent.withOpacity(0.5),
+                          spreadRadius: 4,
+                          blurRadius: 20,
+                        )
+                      ]
+                          : [],
+                    ),
+                    child: AnimatedContainer(
+                      duration: const Duration(milliseconds: 400),
+                      curve: Curves.easeInOut,
+                      width: 100,
+                      height: 100,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        gradient: isLoading
+                            ? const LinearGradient(
+                          colors: [Color(0xFF13889E), Color(0xFF36B4A6)],
+                          begin: Alignment.topLeft,
+                          end: Alignment.bottomRight,
+                        )
+                            : isConnected
+                            ? const LinearGradient(
+                          colors: [Color(0xFF27E6B7), Color(0xFF109F99)],
+                          begin: Alignment.topLeft,
+                          end: Alignment.bottomRight,
+                        )
+                            : const LinearGradient(
+                          colors: [Color(0xFFB52626), Color(0xFF6C1616)],
+                          begin: Alignment.topLeft,
+                          end: Alignment.bottomRight,
+                        ),
+
+                        boxShadow: [
+                          BoxShadow(
+                            color: isLoading
+                                ? Color(0xFF13889E).withOpacity(0.55)
+                                : isConnected
+                                ? Color(0xFF27E6B7).withOpacity(0.55)
+                                : Color(0xFFB52626).withOpacity(0.45),
+                            blurRadius: 30,
+                            spreadRadius: 8,
+                          ),
+                        ],
+                      ),
+                      child: IconButton(
+                        iconSize: 80,
+                        icon: const Icon(Icons.power_settings_new, color: Colors.white),
+                        onPressed: isLoading ? null : _toggleVPN,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+
+
+          const SizedBox(height: 40),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              _SpeedTile(label: "Download", speed: _formatBytes(downloaded)),
+              _SpeedTile(label: "Upload", speed: _formatBytes(uploaded)),
+            ],
+          ),
+        ],
+      );
+
+    }
+
     return Scaffold(
-      backgroundColor: Colors.black,
+      backgroundColor: Color(0xFF090C17),
       appBar: AppBar(
-        backgroundColor: Colors.black,
+        backgroundColor: Color(0xFF090C17),
         centerTitle: true,
-        title: const Text('Welcome', style: TextStyle(color: Colors.white)),
+        title: const Text('VPN', style: TextStyle(color: Colors.white)),
         actions: [
           PopupMenuButton<int>(
-            icon: const Icon(LucideIcons.settings, color: Colors.white),
-            color: Colors.grey[900],
+            icon: const Icon(Icons.settings, color: Colors.white),
+            color: Color(0xFF0F111F).withOpacity(0.95),
+            elevation: 16,
+
             shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(12),
+              borderRadius: BorderRadius.circular(20),
             ),
             offset: const Offset(0, 50), // смещение вниз под иконку
+
             itemBuilder: (context) => [
               PopupMenuItem(
                 value: 1,
                 child: Row(
                   children: const [
-                    Icon(LucideIcons.clipboardPaste, color: Colors.white),
+                    Icon(Icons.paste, color: Colors.white),
                     SizedBox(width: 8),
                     Text("Вставить с буфера", style: TextStyle(color: Colors.white)),
                   ],
@@ -288,7 +480,7 @@ class _VPNHomeScreenState extends State<VPNHomeScreen> {
                 value: 2,
                 child: Row(
                   children: const [
-                    Icon(LucideIcons.keyboard, color: Colors.white),
+                    Icon(Icons.keyboard_rounded, color: Colors.white),
                     SizedBox(width: 8),
                     Text("Вставить вручную", style: TextStyle(color: Colors.white)),
                   ],
@@ -298,7 +490,7 @@ class _VPNHomeScreenState extends State<VPNHomeScreen> {
                 value: 3,
                 child: Row(
                   children: const [
-                    Icon(LucideIcons.trash2, color: Colors.redAccent),
+                    Icon(Icons.delete_outline, color: Colors.redAccent),
                     SizedBox(width: 8),
                     Text("Сбросить конфигурацию", style: TextStyle(color: Colors.redAccent)),
                   ],
@@ -314,7 +506,7 @@ class _VPNHomeScreenState extends State<VPNHomeScreen> {
                   _showManualEntryDialog();
                   break;
                 case 3:
-                  _resetConfig();
+                  _resetConfig(context);
                   break;
               }
             },
@@ -322,76 +514,15 @@ class _VPNHomeScreenState extends State<VPNHomeScreen> {
 
         ],
       ),
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Padding(
-            padding: const EdgeInsets.only(bottom: 20),
-            child: SizedBox(
-              height: 30,
-              child: Center(
-                child: AnimatedOpacity(
-                  opacity: isConnected ? 1.0 : 0.0,
-                  duration: const Duration(milliseconds: 300),
-                  child: Text(
-                    _formatDuration(connectionDuration),
-                    style: const TextStyle(color: Colors.white70, fontSize: 24),
-                  ),
-                ),
-              ),
-            ),
-          ),
-          Center(
-            child: GestureDetector(
-              onTap: isLoading ? null : _toggleVPN,
-              child: AnimatedContainer(
-                duration: const Duration(milliseconds: 300),
-                curve: Curves.easeInOut,
-                width: 200,
-                height: 200,
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  color: Colors.grey.shade900,
-                  boxShadow: isLoading
-                      ? [
-                    BoxShadow(
-                      color: Colors.blueAccent.withOpacity(0.6),
-                      spreadRadius: 4,
-                      blurRadius: 16,
-                    )
-                  ]
-                      : [],
-                ),
-                child: Center(
-                  child: AnimatedSwitcher(
-                    duration: const Duration(milliseconds: 300),
-                    child: isLoading
-                        ? const _SpinningLoader(key: ValueKey('loader'))
-                        : Icon(Icons.power_settings_new,
-                        key: const ValueKey('power'),
-                        color: stage.toLowerCase() == 'connected'
-                            ? Colors.greenAccent
-                            : Colors.redAccent,
-                        size: 80),
-                  ),
-                ),
-              ),
-            ),
-          ),
-
-          const SizedBox(height: 40),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: const [
-              _SpeedTile(label: "Download", speed: "--"),
-              _SpeedTile(label: "Upload", speed: "--"),
-            ],
-          ),
-        ],
+      body: Container(
+        decoration: const BoxDecoration(
+          color: Color(0xFF090C17),
+        ),
+        child: _buildBodyContent(),
       ),
+
     );
   }
-
   String _formatDuration(Duration duration) {
     String twoDigits(int n) => n.toString().padLeft(2, '0');
     final minutes = twoDigits(duration.inMinutes.remainder(60));
@@ -402,6 +533,7 @@ class _VPNHomeScreenState extends State<VPNHomeScreen> {
 }
 
 class _SpeedTile extends StatelessWidget {
+
   final String label;
   final String speed;
 
@@ -411,10 +543,10 @@ class _SpeedTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Text(label, style: const TextStyle(color: Colors.white54)),
+        Text(label, style: const TextStyle(color: Colors.white54, fontSize: 18)),
         const SizedBox(height: 4),
-        Text(speed, style: const TextStyle(color: Colors.white, fontSize: 18)),
-        const Text("MB/s", style: TextStyle(color: Colors.white30, fontSize: 12)),
+        Text(speed, style: const TextStyle(color: Colors.white, fontSize: 20)),
+        const Text("MB", style: TextStyle(color: Colors.white30, fontSize: 14)),
       ],
     );
   }
@@ -436,46 +568,8 @@ class Ticker {
   }
 }
 
-class _SpinningLoader extends StatefulWidget {
-  const _SpinningLoader({Key? key}) : super(key: key);
-
-  @override
-  State<_SpinningLoader> createState() => _SpinningLoaderState();
-}
-
-class _SpinningLoaderState extends State<_SpinningLoader>
-    with SingleTickerProviderStateMixin {
-  late final AnimationController _controller;
-
-  @override
-  void initState() {
-    super.initState();
-    _controller = AnimationController(
-      duration: const Duration(seconds: 1),
-      vsync: this,
-    )..repeat();
-  }
-
-  @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return RotationTransition(
-      turns: _controller,
-      child: const Icon(Icons.sync, color: Colors.blueAccent, size: 64),
-    );
-  }
-}
-
-
-
-
 Future<String> loadVPNConfig(String configUrl) async {
-  final response = await http.get(Uri.parse("http://192.168.1.11:8000/vpn-config?id=$configUrl"));
+  final response = await http.get(Uri.parse("http://185.58.207.121:8000/vpn-config?id=$configUrl"));
   final jsonMap = json.decode(response.body);
   final rawConfig = jsonMap['config']; // строка с \n
 
@@ -487,6 +581,103 @@ Future<String> loadVPNConfig(String configUrl) async {
     throw Exception("Не удалось загрузить конфигурацию VPN");
   }
 }
+
+class ConnectionStatusText extends StatefulWidget {
+  final bool isConnected;
+  final bool isLoading;
+  final Duration connectionDuration;
+
+  const ConnectionStatusText({
+    super.key,
+    required this.isConnected,
+    required this.isLoading,
+    required this.connectionDuration,
+  });
+
+  @override
+  State<ConnectionStatusText> createState() => _ConnectionStatusTextState();
+}
+
+class _ConnectionStatusTextState extends State<ConnectionStatusText> {
+  String currentText = "";
+  bool showText = false;
+
+  @override
+  void didUpdateWidget(ConnectionStatusText oldWidget) {
+    super.didUpdateWidget(oldWidget);
+
+    final newText = widget.isLoading
+        ? "Waiting..."
+        : widget.isConnected
+        ? _formatDuration(widget.connectionDuration)
+        : "";
+
+    final isWaitingToTimer = currentText == "Waiting..." && widget.isConnected;
+
+    if (newText != currentText) {
+      if (isWaitingToTimer) {
+        // переход "Waiting..." → таймер — с плавным исчезновением и задержкой
+        setState(() {
+          showText = false;
+        });
+        Future.delayed(const Duration(milliseconds: 300), () {
+          if (!mounted) return;
+          setState(() {
+            currentText = newText;
+            showText = true;
+          });
+        });
+      } else if (widget.isConnected && currentText != "Waiting...") {
+        // просто тикает таймер — мгновенное обновление текста
+        setState(() {
+          currentText = newText;
+        });
+      } else {
+        // остальные случаи — стандартная анимация
+        setState(() {
+          currentText = newText;
+          showText = newText.isNotEmpty;
+        });
+      }
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 20),
+      child: SizedBox(
+        height: 30,
+        child: Center(
+          child: AnimatedOpacity(
+            opacity: showText ? 1.0 : 0.0,
+            duration: const Duration(milliseconds: 400),
+            child: Transform.translate(
+              offset: currentText == "Waiting..." ? const Offset(6, 0) : Offset.zero,
+              child: Text(
+                currentText,
+                style: const TextStyle(
+                  color: Colors.white70,
+                  fontSize: 24,
+                ),
+              ),
+            ),
+
+          ),
+        ),
+      ),
+    );
+  }
+
+  String _formatDuration(Duration duration) {
+    String twoDigits(int n) => n.toString().padLeft(2, '0');
+    final minutes = twoDigits(duration.inMinutes.remainder(60));
+    final seconds = twoDigits(duration.inSeconds.remainder(60));
+    final hours = twoDigits(duration.inHours);
+    return "$hours:$minutes:$seconds";
+  }
+}
+
 
 const String vpnUsername = "your_username";
 const String vpnPassword = "your_password";
