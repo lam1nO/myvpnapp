@@ -2,11 +2,11 @@ workflows:
   ios-vpn-build:
     name: Build iOS VPN app
     environment:
+      flutter: "3.19.2"
       vars:
         BUNDLE_ID: "com.example.myVpnApp"
         XCODE_WORKSPACE: "Runner.xcworkspace"
         XCODE_SCHEME: "Runner"
-      xcode: latest
     scripts:
       - name: Install Flutter dependencies
         script: |
