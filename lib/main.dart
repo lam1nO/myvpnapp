@@ -108,9 +108,9 @@ class _VPNHomeScreenState extends State<VPNHomeScreen> {
 
   Future<void> _initializeVPN() async {
     await engine.initialize(
-      groupIdentifier: "group.com.yourcompany.vpn",
-      providerBundleIdentifier: "com.yourcompany.network-extension",
-      localizedDescription: "Your VPN Service",
+      groupIdentifier: "group.com.example.myVpnApp",
+      providerBundleIdentifier: "com.example.myVpnApp.network-extension",
+      localizedDescription: "My VPN",
       lastStage: (lastStage) => setState(() {
         stage = lastStage.name;
         isLoading = false;
@@ -135,12 +135,10 @@ class _VPNHomeScreenState extends State<VPNHomeScreen> {
     try {
       final stored = await _loadStoredVpnConfig();
       if (stored == null) return _showError("Сначала введите конфигурацию через настройки");
-      // debugPrint("Connecting to VPN with config:\n$stored['config']");
+      print("Connecting to VPN with config:\n$stored['config']");
       await engine.connect(
         stored['config']!,
         "VPN Server",
-        username: vpnUsername,
-        password: vpnPassword,
         certIsRequired: true,
       );
     } catch (e) {

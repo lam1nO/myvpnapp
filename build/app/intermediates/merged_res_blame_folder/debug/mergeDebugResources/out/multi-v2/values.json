@@ -146,6 +146,25 @@
                     }
                 },
                 {
+                    "source": "D:\\MyProjects\\VPN_app\\android\\app\\src\\main\\res\\values\\styles.xml",
+                    "from": {
+                        "startLines": "3,14",
+                        "startColumns": "4,4",
+                        "startOffsets": "176,832",
+                        "endLines": "7,16",
+                        "endColumns": "12,12",
+                        "endOffsets": "483,998"
+                    },
+                    "to": {
+                        "startLines": "2133,2137",
+                        "startColumns": "4,4",
+                        "startOffsets": "156107,156288",
+                        "endLines": "2136,2139",
+                        "endColumns": "12,12",
+                        "endOffsets": "156283,156452"
+                    }
+                },
+                {
                     "source": "C:\\Users\\adelk\\.gradle\\caches\\8.10.2\\transforms\\1b91be3af319ede480d7185430690ee1\\transformed\\lifecycle-viewmodel-2.7.0\\res\\values\\values.xml",
                     "from": {
                         "startLines": "2",
@@ -179,25 +198,6 @@
                         "endLines": "2864,2870,2880,4244,4248",
                         "endColumns": "24,24,24,24,24",
                         "endOffsets": "202566,202744,203028,251087,251214"
-                    }
-                },
-                {
-                    "source": "D:\\MyProjects\\VPN_app\\my_vpn_app\\android\\app\\src\\main\\res\\values\\styles.xml",
-                    "from": {
-                        "startLines": "3,14",
-                        "startColumns": "4,4",
-                        "startOffsets": "176,832",
-                        "endLines": "7,16",
-                        "endColumns": "12,12",
-                        "endOffsets": "483,998"
-                    },
-                    "to": {
-                        "startLines": "2133,2137",
-                        "startColumns": "4,4",
-                        "startOffsets": "156107,156288",
-                        "endLines": "2136,2139",
-                        "endColumns": "12,12",
-                        "endOffsets": "156283,156452"
                     }
                 },
                 {

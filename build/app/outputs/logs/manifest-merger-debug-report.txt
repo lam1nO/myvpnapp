@@ -1,9 +1,9 @@
 -- Merging decision tree log ---
 application
-INJECTED from D:\MyProjects\VPN_app\my_vpn_app\android\app\src\main\AndroidManifest.xml:2:5-39:19
-INJECTED from D:\MyProjects\VPN_app\my_vpn_app\android\app\src\debug\AndroidManifest.xml
-MERGED from [:openvpn_flutter] D:\MyProjects\VPN_app\my_vpn_app\build\openvpn_flutter\intermediates\merged_manifest\debug\processDebugManifest\AndroidManifest.xml:13:5-19:19
-MERGED from [:openvpn_flutter] D:\MyProjects\VPN_app\my_vpn_app\build\openvpn_flutter\intermediates\merged_manifest\debug\processDebugManifest\AndroidManifest.xml:13:5-19:19
+INJECTED from D:\MyProjects\VPN_app\android\app\src\main\AndroidManifest.xml:2:5-39:19
+INJECTED from D:\MyProjects\VPN_app\android\app\src\debug\AndroidManifest.xml
+MERGED from [:openvpn_flutter] D:\MyProjects\VPN_app\build\openvpn_flutter\intermediates\merged_manifest\debug\processDebugManifest\AndroidManifest.xml:13:5-19:19
+MERGED from [:openvpn_flutter] D:\MyProjects\VPN_app\build\openvpn_flutter\intermediates\merged_manifest\debug\processDebugManifest\AndroidManifest.xml:13:5-19:19
 MERGED from [com.github.nizwar:openvpn_library:b3941ef040] C:\Users\adelk\.gradle\caches\8.10.2\transforms\993621fa4cd666e2fd9e476adda8e337\transformed\jetified-openvpn_library-b3941ef040\AndroidManifest.xml:15:5-49:19
 MERGED from [com.github.nizwar:openvpn_library:b3941ef040] C:\Users\adelk\.gradle\caches\8.10.2\transforms\993621fa4cd666e2fd9e476adda8e337\transformed\jetified-openvpn_library-b3941ef040\AndroidManifest.xml:15:5-49:19
 MERGED from [androidx.window:window:1.2.0] C:\Users\adelk\.gradle\caches\8.10.2\transforms\5093ab42d2307deb2d7ac0b7f5718c38\transformed\jetified-window-1.2.0\AndroidManifest.xml:22:5-29:19
@@ -21,23 +21,23 @@ MERGED from [androidx.startup:startup-runtime:1.1.1] C:\Users\adelk\.gradle\cach
 MERGED from [androidx.versionedparcelable:versionedparcelable:1.1.1] C:\Users\adelk\.gradle\caches\8.10.2\transforms\92a2169b5b2674c8bbe10e1b1d80da0f\transformed\versionedparcelable-1.1.1\AndroidManifest.xml:24:5-25:19
 MERGED from [androidx.versionedparcelable:versionedparcelable:1.1.1] C:\Users\adelk\.gradle\caches\8.10.2\transforms\92a2169b5b2674c8bbe10e1b1d80da0f\transformed\versionedparcelable-1.1.1\AndroidManifest.xml:24:5-25:19
 	android:extractNativeLibs
-		INJECTED from D:\MyProjects\VPN_app\my_vpn_app\android\app\src\debug\AndroidManifest.xml
+		INJECTED from D:\MyProjects\VPN_app\android\app\src\debug\AndroidManifest.xml
 	android:appComponentFactory
 		ADDED from [androidx.core:core:1.13.1] C:\Users\adelk\.gradle\caches\8.10.2\transforms\8cf478dec41eed746328fa8046755ba2\transformed\core-1.13.1\AndroidManifest.xml:28:18-86
 	android:name
-		INJECTED from D:\MyProjects\VPN_app\my_vpn_app\android\app\src\main\AndroidManifest.xml
+		INJECTED from D:\MyProjects\VPN_app\android\app\src\main\AndroidManifest.xml
 manifest
-ADDED from D:\MyProjects\VPN_app\my_vpn_app\android\app\src\main\AndroidManifest.xml:1:1-51:12
-MERGED from D:\MyProjects\VPN_app\my_vpn_app\android\app\src\main\AndroidManifest.xml:1:1-51:12
-INJECTED from D:\MyProjects\VPN_app\my_vpn_app\android\app\src\debug\AndroidManifest.xml:1:1-7:12
-INJECTED from D:\MyProjects\VPN_app\my_vpn_app\android\app\src\debug\AndroidManifest.xml:1:1-7:12
-INJECTED from D:\MyProjects\VPN_app\my_vpn_app\android\app\src\debug\AndroidManifest.xml:1:1-7:12
-MERGED from [:shared_preferences_android] D:\MyProjects\VPN_app\my_vpn_app\build\shared_preferences_android\intermediates\merged_manifest\debug\processDebugManifest\AndroidManifest.xml:2:1-7:12
+ADDED from D:\MyProjects\VPN_app\android\app\src\main\AndroidManifest.xml:1:1-51:12
+MERGED from D:\MyProjects\VPN_app\android\app\src\main\AndroidManifest.xml:1:1-51:12
+INJECTED from D:\MyProjects\VPN_app\android\app\src\debug\AndroidManifest.xml:1:1-7:12
+INJECTED from D:\MyProjects\VPN_app\android\app\src\debug\AndroidManifest.xml:1:1-7:12
+INJECTED from D:\MyProjects\VPN_app\android\app\src\debug\AndroidManifest.xml:1:1-7:12
+MERGED from [:shared_preferences_android] D:\MyProjects\VPN_app\build\shared_preferences_android\intermediates\merged_manifest\debug\processDebugManifest\AndroidManifest.xml:2:1-7:12
 MERGED from [androidx.datastore:datastore-core-android:1.1.3] C:\Users\adelk\.gradle\caches\8.10.2\transforms\1ba8599b6014e514325b6a37b5077642\transformed\jetified-datastore-core-release\AndroidManifest.xml:2:1-7:12
 MERGED from [androidx.datastore:datastore-preferences-android:1.1.3] C:\Users\adelk\.gradle\caches\8.10.2\transforms\02cddce53ae6e54afa639a8fcdb8b322\transformed\jetified-datastore-preferences-release\AndroidManifest.xml:17:1-22:12
 MERGED from [androidx.datastore:datastore-android:1.1.3] C:\Users\adelk\.gradle\caches\8.10.2\transforms\c7cbd00988e28f46cac66dd959ae6532\transformed\jetified-datastore-release\AndroidManifest.xml:17:1-22:12
-MERGED from [:app_links] D:\MyProjects\VPN_app\my_vpn_app\build\app_links\intermediates\merged_manifest\debug\processDebugManifest\AndroidManifest.xml:2:1-7:12
-MERGED from [:openvpn_flutter] D:\MyProjects\VPN_app\my_vpn_app\build\openvpn_flutter\intermediates\merged_manifest\debug\processDebugManifest\AndroidManifest.xml:2:1-21:12
+MERGED from [:app_links] D:\MyProjects\VPN_app\build\app_links\intermediates\merged_manifest\debug\processDebugManifest\AndroidManifest.xml:2:1-7:12
+MERGED from [:openvpn_flutter] D:\MyProjects\VPN_app\build\openvpn_flutter\intermediates\merged_manifest\debug\processDebugManifest\AndroidManifest.xml:2:1-21:12
 MERGED from [com.github.nizwar:openvpn_library:b3941ef040] C:\Users\adelk\.gradle\caches\8.10.2\transforms\993621fa4cd666e2fd9e476adda8e337\transformed\jetified-openvpn_library-b3941ef040\AndroidManifest.xml:2:1-51:12
 MERGED from [androidx.preference:preference:1.2.1] C:\Users\adelk\.gradle\caches\8.10.2\transforms\0098a6e93522fecc805d8900172003dc\transformed\preference-1.2.1\AndroidManifest.xml:17:1-24:12
 MERGED from [androidx.appcompat:appcompat-resources:1.6.0] C:\Users\adelk\.gradle\caches\8.10.2\transforms\9e660eb6de710af74576e7eac28e58a4\transformed\jetified-appcompat-resources-1.6.0\AndroidManifest.xml:17:1-22:12
@@ -92,47 +92,47 @@ MERGED from [androidx.annotation:annotation-experimental:1.4.0] C:\Users\adelk\.
 MERGED from [org.microg:safe-parcel:1.7.0] C:\Users\adelk\.gradle\caches\8.10.2\transforms\e8e12b6829d4101dc434d765546d66c9\transformed\jetified-safe-parcel-1.7.0\AndroidManifest.xml:6:1-14:12
 MERGED from [com.getkeepsafe.relinker:relinker:1.4.5] C:\Users\adelk\.gradle\caches\8.10.2\transforms\9e1412f82216e9a99f9f845f4567c1f2\transformed\jetified-relinker-1.4.5\AndroidManifest.xml:2:1-7:12
 	package
-		INJECTED from D:\MyProjects\VPN_app\my_vpn_app\android\app\src\debug\AndroidManifest.xml
+		INJECTED from D:\MyProjects\VPN_app\android\app\src\debug\AndroidManifest.xml
 	android:versionName
-		INJECTED from D:\MyProjects\VPN_app\my_vpn_app\android\app\src\debug\AndroidManifest.xml
+		INJECTED from D:\MyProjects\VPN_app\android\app\src\debug\AndroidManifest.xml
 	android:versionCode
-		INJECTED from D:\MyProjects\VPN_app\my_vpn_app\android\app\src\debug\AndroidManifest.xml
+		INJECTED from D:\MyProjects\VPN_app\android\app\src\debug\AndroidManifest.xml
 	xmlns:android
-		ADDED from D:\MyProjects\VPN_app\my_vpn_app\android\app\src\main\AndroidManifest.xml:1:11-69
+		ADDED from D:\MyProjects\VPN_app\android\app\src\main\AndroidManifest.xml:1:11-69
 queries
-ADDED from D:\MyProjects\VPN_app\my_vpn_app\android\app\src\main\AndroidManifest.xml:45:5-50:15
+ADDED from D:\MyProjects\VPN_app\android\app\src\main\AndroidManifest.xml:45:5-50:15
 intent#action:name:android.intent.action.PROCESS_TEXT+data:mimeType:text/plain
-ADDED from D:\MyProjects\VPN_app\my_vpn_app\android\app\src\main\AndroidManifest.xml:46:9-49:18
+ADDED from D:\MyProjects\VPN_app\android\app\src\main\AndroidManifest.xml:46:9-49:18
 action#android.intent.action.PROCESS_TEXT
-ADDED from D:\MyProjects\VPN_app\my_vpn_app\android\app\src\main\AndroidManifest.xml:47:13-72
+ADDED from D:\MyProjects\VPN_app\android\app\src\main\AndroidManifest.xml:47:13-72
 	android:name
-		ADDED from D:\MyProjects\VPN_app\my_vpn_app\android\app\src\main\AndroidManifest.xml:47:21-70
+		ADDED from D:\MyProjects\VPN_app\android\app\src\main\AndroidManifest.xml:47:21-70
 data
-ADDED from D:\MyProjects\VPN_app\my_vpn_app\android\app\src\main\AndroidManifest.xml:48:13-50
+ADDED from D:\MyProjects\VPN_app\android\app\src\main\AndroidManifest.xml:48:13-50
 	android:mimeType
-		ADDED from D:\MyProjects\VPN_app\my_vpn_app\android\app\src\main\AndroidManifest.xml:48:19-48
+		ADDED from D:\MyProjects\VPN_app\android\app\src\main\AndroidManifest.xml:48:19-48
 uses-permission#android.permission.INTERNET
-ADDED from D:\MyProjects\VPN_app\my_vpn_app\android\app\src\debug\AndroidManifest.xml:6:5-66
+ADDED from D:\MyProjects\VPN_app\android\app\src\debug\AndroidManifest.xml:6:5-66
 MERGED from [com.github.nizwar:openvpn_library:b3941ef040] C:\Users\adelk\.gradle\caches\8.10.2\transforms\993621fa4cd666e2fd9e476adda8e337\transformed\jetified-openvpn_library-b3941ef040\AndroidManifest.xml:10:5-67
 MERGED from [com.github.nizwar:openvpn_library:b3941ef040] C:\Users\adelk\.gradle\caches\8.10.2\transforms\993621fa4cd666e2fd9e476adda8e337\transformed\jetified-openvpn_library-b3941ef040\AndroidManifest.xml:10:5-67
 	android:name
-		ADDED from D:\MyProjects\VPN_app\my_vpn_app\android\app\src\debug\AndroidManifest.xml:6:22-64
+		ADDED from D:\MyProjects\VPN_app\android\app\src\debug\AndroidManifest.xml:6:22-64
 uses-sdk
-INJECTED from D:\MyProjects\VPN_app\my_vpn_app\android\app\src\debug\AndroidManifest.xml reason: use-sdk injection requested
-INJECTED from D:\MyProjects\VPN_app\my_vpn_app\android\app\src\debug\AndroidManifest.xml
-INJECTED from D:\MyProjects\VPN_app\my_vpn_app\android\app\src\debug\AndroidManifest.xml
-MERGED from [:shared_preferences_android] D:\MyProjects\VPN_app\my_vpn_app\build\shared_preferences_android\intermediates\merged_manifest\debug\processDebugManifest\AndroidManifest.xml:5:5-44
-MERGED from [:shared_preferences_android] D:\MyProjects\VPN_app\my_vpn_app\build\shared_preferences_android\intermediates\merged_manifest\debug\processDebugManifest\AndroidManifest.xml:5:5-44
+INJECTED from D:\MyProjects\VPN_app\android\app\src\debug\AndroidManifest.xml reason: use-sdk injection requested
+INJECTED from D:\MyProjects\VPN_app\android\app\src\debug\AndroidManifest.xml
+INJECTED from D:\MyProjects\VPN_app\android\app\src\debug\AndroidManifest.xml
+MERGED from [:shared_preferences_android] D:\MyProjects\VPN_app\build\shared_preferences_android\intermediates\merged_manifest\debug\processDebugManifest\AndroidManifest.xml:5:5-44
+MERGED from [:shared_preferences_android] D:\MyProjects\VPN_app\build\shared_preferences_android\intermediates\merged_manifest\debug\processDebugManifest\AndroidManifest.xml:5:5-44
 MERGED from [androidx.datastore:datastore-core-android:1.1.3] C:\Users\adelk\.gradle\caches\8.10.2\transforms\1ba8599b6014e514325b6a37b5077642\transformed\jetified-datastore-core-release\AndroidManifest.xml:5:5-44
 MERGED from [androidx.datastore:datastore-core-android:1.1.3] C:\Users\adelk\.gradle\caches\8.10.2\transforms\1ba8599b6014e514325b6a37b5077642\transformed\jetified-datastore-core-release\AndroidManifest.xml:5:5-44
 MERGED from [androidx.datastore:datastore-preferences-android:1.1.3] C:\Users\adelk\.gradle\caches\8.10.2\transforms\02cddce53ae6e54afa639a8fcdb8b322\transformed\jetified-datastore-preferences-release\AndroidManifest.xml:20:5-44
 MERGED from [androidx.datastore:datastore-preferences-android:1.1.3] C:\Users\adelk\.gradle\caches\8.10.2\transforms\02cddce53ae6e54afa639a8fcdb8b322\transformed\jetified-datastore-preferences-release\AndroidManifest.xml:20:5-44
 MERGED from [androidx.datastore:datastore-android:1.1.3] C:\Users\adelk\.gradle\caches\8.10.2\transforms\c7cbd00988e28f46cac66dd959ae6532\transformed\jetified-datastore-release\AndroidManifest.xml:20:5-44
 MERGED from [androidx.datastore:datastore-android:1.1.3] C:\Users\adelk\.gradle\caches\8.10.2\transforms\c7cbd00988e28f46cac66dd959ae6532\transformed\jetified-datastore-release\AndroidManifest.xml:20:5-44
-MERGED from [:app_links] D:\MyProjects\VPN_app\my_vpn_app\build\app_links\intermediates\merged_manifest\debug\processDebugManifest\AndroidManifest.xml:5:5-44
-MERGED from [:app_links] D:\MyProjects\VPN_app\my_vpn_app\build\app_links\intermediates\merged_manifest\debug\processDebugManifest\AndroidManifest.xml:5:5-44
-MERGED from [:openvpn_flutter] D:\MyProjects\VPN_app\my_vpn_app\build\openvpn_flutter\intermediates\merged_manifest\debug\processDebugManifest\AndroidManifest.xml:6:5-44
-MERGED from [:openvpn_flutter] D:\MyProjects\VPN_app\my_vpn_app\build\openvpn_flutter\intermediates\merged_manifest\debug\processDebugManifest\AndroidManifest.xml:6:5-44
+MERGED from [:app_links] D:\MyProjects\VPN_app\build\app_links\intermediates\merged_manifest\debug\processDebugManifest\AndroidManifest.xml:5:5-44
+MERGED from [:app_links] D:\MyProjects\VPN_app\build\app_links\intermediates\merged_manifest\debug\processDebugManifest\AndroidManifest.xml:5:5-44
+MERGED from [:openvpn_flutter] D:\MyProjects\VPN_app\build\openvpn_flutter\intermediates\merged_manifest\debug\processDebugManifest\AndroidManifest.xml:6:5-44
+MERGED from [:openvpn_flutter] D:\MyProjects\VPN_app\build\openvpn_flutter\intermediates\merged_manifest\debug\processDebugManifest\AndroidManifest.xml:6:5-44
 MERGED from [com.github.nizwar:openvpn_library:b3941ef040] C:\Users\adelk\.gradle\caches\8.10.2\transforms\993621fa4cd666e2fd9e476adda8e337\transformed\jetified-openvpn_library-b3941ef040\AndroidManifest.xml:6:5-8:41
 MERGED from [com.github.nizwar:openvpn_library:b3941ef040] C:\Users\adelk\.gradle\caches\8.10.2\transforms\993621fa4cd666e2fd9e476adda8e337\transformed\jetified-openvpn_library-b3941ef040\AndroidManifest.xml:6:5-8:41
 MERGED from [androidx.preference:preference:1.2.1] C:\Users\adelk\.gradle\caches\8.10.2\transforms\0098a6e93522fecc805d8900172003dc\transformed\preference-1.2.1\AndroidManifest.xml:20:5-22:41
@@ -240,36 +240,36 @@ MERGED from [org.microg:safe-parcel:1.7.0] C:\Users\adelk\.gradle\caches\8.10.2\
 MERGED from [com.getkeepsafe.relinker:relinker:1.4.5] C:\Users\adelk\.gradle\caches\8.10.2\transforms\9e1412f82216e9a99f9f845f4567c1f2\transformed\jetified-relinker-1.4.5\AndroidManifest.xml:5:5-43
 MERGED from [com.getkeepsafe.relinker:relinker:1.4.5] C:\Users\adelk\.gradle\caches\8.10.2\transforms\9e1412f82216e9a99f9f845f4567c1f2\transformed\jetified-relinker-1.4.5\AndroidManifest.xml:5:5-43
 	android:targetSdkVersion
-		INJECTED from D:\MyProjects\VPN_app\my_vpn_app\android\app\src\debug\AndroidManifest.xml
+		INJECTED from D:\MyProjects\VPN_app\android\app\src\debug\AndroidManifest.xml
 	android:minSdkVersion
-		INJECTED from D:\MyProjects\VPN_app\my_vpn_app\android\app\src\debug\AndroidManifest.xml
+		INJECTED from D:\MyProjects\VPN_app\android\app\src\debug\AndroidManifest.xml
 uses-permission#android.permission.ACCESS_NETWORK_STATE
-ADDED from [:openvpn_flutter] D:\MyProjects\VPN_app\my_vpn_app\build\openvpn_flutter\intermediates\merged_manifest\debug\processDebugManifest\AndroidManifest.xml:8:5-79
+ADDED from [:openvpn_flutter] D:\MyProjects\VPN_app\build\openvpn_flutter\intermediates\merged_manifest\debug\processDebugManifest\AndroidManifest.xml:8:5-79
 MERGED from [com.github.nizwar:openvpn_library:b3941ef040] C:\Users\adelk\.gradle\caches\8.10.2\transforms\993621fa4cd666e2fd9e476adda8e337\transformed\jetified-openvpn_library-b3941ef040\AndroidManifest.xml:11:5-79
 MERGED from [com.github.nizwar:openvpn_library:b3941ef040] C:\Users\adelk\.gradle\caches\8.10.2\transforms\993621fa4cd666e2fd9e476adda8e337\transformed\jetified-openvpn_library-b3941ef040\AndroidManifest.xml:11:5-79
 	android:name
-		ADDED from [:openvpn_flutter] D:\MyProjects\VPN_app\my_vpn_app\build\openvpn_flutter\intermediates\merged_manifest\debug\processDebugManifest\AndroidManifest.xml:8:22-76
+		ADDED from [:openvpn_flutter] D:\MyProjects\VPN_app\build\openvpn_flutter\intermediates\merged_manifest\debug\processDebugManifest\AndroidManifest.xml:8:22-76
 uses-permission#android.permission.FOREGROUND_SERVICE_SYSTEM_EXEMPTED
-ADDED from [:openvpn_flutter] D:\MyProjects\VPN_app\my_vpn_app\build\openvpn_flutter\intermediates\merged_manifest\debug\processDebugManifest\AndroidManifest.xml:9:5-11:38
+ADDED from [:openvpn_flutter] D:\MyProjects\VPN_app\build\openvpn_flutter\intermediates\merged_manifest\debug\processDebugManifest\AndroidManifest.xml:9:5-11:38
 	android:minSdkVersion
-		ADDED from [:openvpn_flutter] D:\MyProjects\VPN_app\my_vpn_app\build\openvpn_flutter\intermediates\merged_manifest\debug\processDebugManifest\AndroidManifest.xml:11:9-35
+		ADDED from [:openvpn_flutter] D:\MyProjects\VPN_app\build\openvpn_flutter\intermediates\merged_manifest\debug\processDebugManifest\AndroidManifest.xml:11:9-35
 	android:name
-		ADDED from [:openvpn_flutter] D:\MyProjects\VPN_app\my_vpn_app\build\openvpn_flutter\intermediates\merged_manifest\debug\processDebugManifest\AndroidManifest.xml:10:9-77
+		ADDED from [:openvpn_flutter] D:\MyProjects\VPN_app\build\openvpn_flutter\intermediates\merged_manifest\debug\processDebugManifest\AndroidManifest.xml:10:9-77
 service#de.blinkt.openvpn.core.OpenVPNService
-ADDED from [:openvpn_flutter] D:\MyProjects\VPN_app\my_vpn_app\build\openvpn_flutter\intermediates\merged_manifest\debug\processDebugManifest\AndroidManifest.xml:14:9-18:48
+ADDED from [:openvpn_flutter] D:\MyProjects\VPN_app\build\openvpn_flutter\intermediates\merged_manifest\debug\processDebugManifest\AndroidManifest.xml:14:9-18:48
 MERGED from [com.github.nizwar:openvpn_library:b3941ef040] C:\Users\adelk\.gradle\caches\8.10.2\transforms\993621fa4cd666e2fd9e476adda8e337\transformed\jetified-openvpn_library-b3941ef040\AndroidManifest.xml:21:9-28:19
 MERGED from [com.github.nizwar:openvpn_library:b3941ef040] C:\Users\adelk\.gradle\caches\8.10.2\transforms\993621fa4cd666e2fd9e476adda8e337\transformed\jetified-openvpn_library-b3941ef040\AndroidManifest.xml:21:9-28:19
 	android:exported
-		ADDED from [:openvpn_flutter] D:\MyProjects\VPN_app\my_vpn_app\build\openvpn_flutter\intermediates\merged_manifest\debug\processDebugManifest\AndroidManifest.xml:16:13-37
+		ADDED from [:openvpn_flutter] D:\MyProjects\VPN_app\build\openvpn_flutter\intermediates\merged_manifest\debug\processDebugManifest\AndroidManifest.xml:16:13-37
 		REJECTED from [com.github.nizwar:openvpn_library:b3941ef040] C:\Users\adelk\.gradle\caches\8.10.2\transforms\993621fa4cd666e2fd9e476adda8e337\transformed\jetified-openvpn_library-b3941ef040\AndroidManifest.xml:23:13-36
 	android:permission
 		ADDED from [com.github.nizwar:openvpn_library:b3941ef040] C:\Users\adelk\.gradle\caches\8.10.2\transforms\993621fa4cd666e2fd9e476adda8e337\transformed\jetified-openvpn_library-b3941ef040\AndroidManifest.xml:24:13-69
 	tools:replace
-		ADDED from [:openvpn_flutter] D:\MyProjects\VPN_app\my_vpn_app\build\openvpn_flutter\intermediates\merged_manifest\debug\processDebugManifest\AndroidManifest.xml:18:13-45
+		ADDED from [:openvpn_flutter] D:\MyProjects\VPN_app\build\openvpn_flutter\intermediates\merged_manifest\debug\processDebugManifest\AndroidManifest.xml:18:13-45
 	android:foregroundServiceType
-		ADDED from [:openvpn_flutter] D:\MyProjects\VPN_app\my_vpn_app\build\openvpn_flutter\intermediates\merged_manifest\debug\processDebugManifest\AndroidManifest.xml:17:13-59
+		ADDED from [:openvpn_flutter] D:\MyProjects\VPN_app\build\openvpn_flutter\intermediates\merged_manifest\debug\processDebugManifest\AndroidManifest.xml:17:13-59
 	android:name
-		ADDED from [:openvpn_flutter] D:\MyProjects\VPN_app\my_vpn_app\build\openvpn_flutter\intermediates\merged_manifest\debug\processDebugManifest\AndroidManifest.xml:15:13-65
+		ADDED from [:openvpn_flutter] D:\MyProjects\VPN_app\build\openvpn_flutter\intermediates\merged_manifest\debug\processDebugManifest\AndroidManifest.xml:15:13-65
 uses-permission#android.permission.FOREGROUND_SERVICE
 ADDED from [com.github.nizwar:openvpn_library:b3941ef040] C:\Users\adelk\.gradle\caches\8.10.2\transforms\993621fa4cd666e2fd9e476adda8e337\transformed\jetified-openvpn_library-b3941ef040\AndroidManifest.xml:12:5-77
 	android:name

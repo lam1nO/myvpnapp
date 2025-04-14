@@ -21,7 +21,7 @@
                     }
                 },
                 {
-                    "source": "D:\\MyProjects\\VPN_app\\my_vpn_app\\android\\app\\src\\main\\res\\values-night\\styles.xml",
+                    "source": "D:\\MyProjects\\VPN_app\\android\\app\\src\\main\\res\\values-night\\styles.xml",
                     "from": {
                         "startLines": "3,14",
                         "startColumns": "4,4",
