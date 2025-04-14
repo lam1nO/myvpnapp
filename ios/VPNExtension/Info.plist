@@ -6,14 +6,23 @@
     <string>VPNExtension</string>
     <key>CFBundleIdentifier</key>
     <string>com.example.myVpnApp.VPNExtension</string>
-    <key>CFBundleName</key>
-    <string>VPNExtension</string>
+    <key>CFBundlePackageType</key>
+    <string>XPC!</string>
+    <key>CFBundleShortVersionString</key>
+    <string>1.0</string>
+    <key>CFBundleVersion</key>
+    <string>1</string>
     <key>NSExtension</key>
     <dict>
+        <key>NSExtensionAttributes</key>
+        <dict>
+            <key>NETunnelProvider</key>
+            <dict/>
+        </dict>
         <key>NSExtensionPointIdentifier</key>
         <string>com.apple.networkextension.packet-tunnel</string>
         <key>NSExtensionPrincipalClass</key>
-        <string>$(PRODUCT_MODULE_NAME).PacketTunnelProvider</string>
+        <string>PacketTunnelProvider</string>
     </dict>
 </dict>
 </plist>

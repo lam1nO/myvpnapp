@@ -6,5 +6,7 @@
     <array>
         <string>packet-tunnel-provider</string>
     </array>
+    <key>com.apple.developer.team-identifier</key>
+    <string>ABCDE12345</string> <!-- любую строку, не проверяется -->
 </dict>
 </plist>
