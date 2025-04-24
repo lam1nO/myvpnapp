@@ -6,8 +6,7 @@ plugins {
 }
 
 android {
-    namespace = "com.example.my_vpn_app"
-    compileSdk = flutter.compileSdkVersion
+    namespace = "com.example.LordVPN"
     ndkVersion = "27.0.12077973"
 
     compileOptions {
@@ -18,14 +17,11 @@ android {
     kotlinOptions {
         jvmTarget = JavaVersion.VERSION_11.toString()
     }
-
+    compileSdkVersion(35)
     defaultConfig {
-        // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
-        applicationId = "com.example.my_vpn_app"
-        // You can update the following values to match your application needs.
-        // For more information, see: https://flutter.dev/to/review-gradle-config.
-        minSdk = flutter.minSdkVersion
-        targetSdk = flutter.targetSdkVersion
+        minSdkVersion(21)
+        targetSdkVersion(35)
+        applicationId = "com.example.LordVPN"
         versionCode = flutter.versionCode
         versionName = flutter.versionName
     }

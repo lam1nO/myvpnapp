@@ -37,6 +37,7 @@ MERGED from [androidx.datastore:datastore-core-android:1.1.3] C:\Users\adelk\.gr
 MERGED from [androidx.datastore:datastore-preferences-android:1.1.3] C:\Users\adelk\.gradle\caches\8.10.2\transforms\02cddce53ae6e54afa639a8fcdb8b322\transformed\jetified-datastore-preferences-release\AndroidManifest.xml:17:1-22:12
 MERGED from [androidx.datastore:datastore-android:1.1.3] C:\Users\adelk\.gradle\caches\8.10.2\transforms\c7cbd00988e28f46cac66dd959ae6532\transformed\jetified-datastore-release\AndroidManifest.xml:17:1-22:12
 MERGED from [:app_links] D:\MyProjects\VPN_app\build\app_links\intermediates\merged_manifest\debug\processDebugManifest\AndroidManifest.xml:2:1-7:12
+MERGED from [:flutter_native_splash] D:\MyProjects\VPN_app\build\flutter_native_splash\intermediates\merged_manifest\debug\processDebugManifest\AndroidManifest.xml:2:1-7:12
 MERGED from [:openvpn_flutter] D:\MyProjects\VPN_app\build\openvpn_flutter\intermediates\merged_manifest\debug\processDebugManifest\AndroidManifest.xml:2:1-21:12
 MERGED from [com.github.nizwar:openvpn_library:b3941ef040] C:\Users\adelk\.gradle\caches\8.10.2\transforms\993621fa4cd666e2fd9e476adda8e337\transformed\jetified-openvpn_library-b3941ef040\AndroidManifest.xml:2:1-51:12
 MERGED from [androidx.preference:preference:1.2.1] C:\Users\adelk\.gradle\caches\8.10.2\transforms\0098a6e93522fecc805d8900172003dc\transformed\preference-1.2.1\AndroidManifest.xml:17:1-24:12
@@ -131,6 +132,8 @@ MERGED from [androidx.datastore:datastore-android:1.1.3] C:\Users\adelk\.gradle\
 MERGED from [androidx.datastore:datastore-android:1.1.3] C:\Users\adelk\.gradle\caches\8.10.2\transforms\c7cbd00988e28f46cac66dd959ae6532\transformed\jetified-datastore-release\AndroidManifest.xml:20:5-44
 MERGED from [:app_links] D:\MyProjects\VPN_app\build\app_links\intermediates\merged_manifest\debug\processDebugManifest\AndroidManifest.xml:5:5-44
 MERGED from [:app_links] D:\MyProjects\VPN_app\build\app_links\intermediates\merged_manifest\debug\processDebugManifest\AndroidManifest.xml:5:5-44
+MERGED from [:flutter_native_splash] D:\MyProjects\VPN_app\build\flutter_native_splash\intermediates\merged_manifest\debug\processDebugManifest\AndroidManifest.xml:5:5-44
+MERGED from [:flutter_native_splash] D:\MyProjects\VPN_app\build\flutter_native_splash\intermediates\merged_manifest\debug\processDebugManifest\AndroidManifest.xml:5:5-44
 MERGED from [:openvpn_flutter] D:\MyProjects\VPN_app\build\openvpn_flutter\intermediates\merged_manifest\debug\processDebugManifest\AndroidManifest.xml:6:5-44
 MERGED from [:openvpn_flutter] D:\MyProjects\VPN_app\build\openvpn_flutter\intermediates\merged_manifest\debug\processDebugManifest\AndroidManifest.xml:6:5-44
 MERGED from [com.github.nizwar:openvpn_library:b3941ef040] C:\Users\adelk\.gradle\caches\8.10.2\transforms\993621fa4cd666e2fd9e476adda8e337\transformed\jetified-openvpn_library-b3941ef040\AndroidManifest.xml:6:5-8:41
@@ -368,7 +371,7 @@ ADDED from [androidx.core:core:1.13.1] C:\Users\adelk\.gradle\caches\8.10.2\tran
 		ADDED from [androidx.core:core:1.13.1] C:\Users\adelk\.gradle\caches\8.10.2\transforms\8cf478dec41eed746328fa8046755ba2\transformed\core-1.13.1\AndroidManifest.xml:24:9-44
 	android:name
 		ADDED from [androidx.core:core:1.13.1] C:\Users\adelk\.gradle\caches\8.10.2\transforms\8cf478dec41eed746328fa8046755ba2\transformed\core-1.13.1\AndroidManifest.xml:23:9-81
-permission#com.example.my_vpn_app.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION
+permission#com.example.LordVPN.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION
 ADDED from [androidx.core:core:1.13.1] C:\Users\adelk\.gradle\caches\8.10.2\transforms\8cf478dec41eed746328fa8046755ba2\transformed\core-1.13.1\AndroidManifest.xml:22:5-24:47
 	android:protectionLevel
 		ADDED from [androidx.core:core:1.13.1] C:\Users\adelk\.gradle\caches\8.10.2\transforms\8cf478dec41eed746328fa8046755ba2\transformed\core-1.13.1\AndroidManifest.xml:24:9-44
@@ -378,7 +381,7 @@ uses-permission#${applicationId}.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION
 ADDED from [androidx.core:core:1.13.1] C:\Users\adelk\.gradle\caches\8.10.2\transforms\8cf478dec41eed746328fa8046755ba2\transformed\core-1.13.1\AndroidManifest.xml:26:5-97
 	android:name
 		ADDED from [androidx.core:core:1.13.1] C:\Users\adelk\.gradle\caches\8.10.2\transforms\8cf478dec41eed746328fa8046755ba2\transformed\core-1.13.1\AndroidManifest.xml:26:22-94
-uses-permission#com.example.my_vpn_app.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION
+uses-permission#com.example.LordVPN.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION
 ADDED from [androidx.core:core:1.13.1] C:\Users\adelk\.gradle\caches\8.10.2\transforms\8cf478dec41eed746328fa8046755ba2\transformed\core-1.13.1\AndroidManifest.xml:26:5-97
 	android:name
 		ADDED from [androidx.core:core:1.13.1] C:\Users\adelk\.gradle\caches\8.10.2\transforms\8cf478dec41eed746328fa8046755ba2\transformed\core-1.13.1\AndroidManifest.xml:26:22-94

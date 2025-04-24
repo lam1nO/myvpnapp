@@ -4,7 +4,7 @@
     "type": "LINKED_RESOURCES_BINARY_FORMAT",
     "kind": "Directory"
   },
-  "applicationId": "com.example.my_vpn_app",
+  "applicationId": "com.example.LordVPN",
   "variantName": "debug",
   "elements": [
     {

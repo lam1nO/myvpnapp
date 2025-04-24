@@ -1,4 +1,4 @@
-package com.example.my_vpn_app;
+package com.example.LordVPN;
 
 import io.flutter.embedding.android.FlutterActivity;
 

@@ -1,0 +1,52 @@
+{
+    "logs": [
+        {
+            "outputFile": "com.example.LordVPN.app-mergeDebugResources-43:/values-v31/values-v31.xml",
+            "map": [
+                {
+                    "source": "D:\\MyProjects\\VPN_app\\android\\app\\src\\main\\res\\values-v31\\styles.xml",
+                    "from": {
+                        "startLines": "3,-1",
+                        "startColumns": "4,-1",
+                        "startOffsets": "173,-1",
+                        "endLines": "11,-1",
+                        "endColumns": "12,-1",
+                        "endOffsets": "790,-1"
+                    },
+                    "to": {
+                        "startLines": "2,11",
+                        "startColumns": "4,4",
+                        "startOffsets": "55,677",
+                        "endLines": "10,13",
+                        "endColumns": "12,12",
+                        "endOffsets": "672,841"
+                    }
+                }
+            ]
+        },
+        {
+            "outputFile": "C:\\Users\\adelk\\.gradle\\daemon\\8.10.2\\com.example.LordVPN.app-mergeDebugResources-43:\\values-v31\\values-v31.xml",
+            "map": [
+                {
+                    "source": "D:\\MyProjects\\VPN_app\\android\\app\\src\\main\\res\\values-v31\\styles.xml",
+                    "from": {
+                        "startLines": "3,17",
+                        "startColumns": "4,4",
+                        "startOffsets": "173,1045",
+                        "endLines": "10,19",
+                        "endColumns": "12,12",
+                        "endOffsets": "694,1209"
+                    },
+                    "to": {
+                        "startLines": "2,10",
+                        "startColumns": "4,4",
+                        "startOffsets": "55,581",
+                        "endLines": "9,12",
+                        "endColumns": "12,12",
+                        "endOffsets": "576,745"
+                    }
+                }
+            ]
+        }
+    ]
+}

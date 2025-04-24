@@ -1,6 +1,6 @@
 1<?xml version="1.0" encoding="utf-8"?>
 2<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-3    package="com.example.my_vpn_app"
+3    package="com.example.LordVPN"
 4    android:versionCode="1"
 5    android:versionName="1.0.0" >
 6
@@ -54,12 +54,12 @@
 37
 38    <permission
 38-->[androidx.core:core:1.13.1] C:\Users\adelk\.gradle\caches\8.10.2\transforms\8cf478dec41eed746328fa8046755ba2\transformed\core-1.13.1\AndroidManifest.xml:22:5-24:47
-39        android:name="com.example.my_vpn_app.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION"
+39        android:name="com.example.LordVPN.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION"
 39-->[androidx.core:core:1.13.1] C:\Users\adelk\.gradle\caches\8.10.2\transforms\8cf478dec41eed746328fa8046755ba2\transformed\core-1.13.1\AndroidManifest.xml:23:9-81
 40        android:protectionLevel="signature" />
 40-->[androidx.core:core:1.13.1] C:\Users\adelk\.gradle\caches\8.10.2\transforms\8cf478dec41eed746328fa8046755ba2\transformed\core-1.13.1\AndroidManifest.xml:24:9-44
 41
-42    <uses-permission android:name="com.example.my_vpn_app.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION" />
+42    <uses-permission android:name="com.example.LordVPN.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION" />
 42-->[androidx.core:core:1.13.1] C:\Users\adelk\.gradle\caches\8.10.2\transforms\8cf478dec41eed746328fa8046755ba2\transformed\core-1.13.1\AndroidManifest.xml:26:5-97
 42-->[androidx.core:core:1.13.1] C:\Users\adelk\.gradle\caches\8.10.2\transforms\8cf478dec41eed746328fa8046755ba2\transformed\core-1.13.1\AndroidManifest.xml:26:22-94
 43
@@ -70,9 +70,9 @@
 47        android:debuggable="true"
 48        android:extractNativeLibs="true"
 49        android:icon="@mipmap/ic_launcher"
-50        android:label="my_vpn_app" >
+50        android:label="LordVPN" >
 51        <activity
-52            android:name="com.example.my_vpn_app.MainActivity"
+52            android:name="com.example.LordVPN.MainActivity"
 53            android:configChanges="orientation|keyboardHidden|keyboard|screenSize|smallestScreenSize|locale|layoutDirection|fontScale|screenLayout|density|uiMode"
 54            android:exported="true"
 55            android:hardwareAccelerated="true"
@@ -199,7 +199,7 @@
 135-->[androidx.emoji2:emoji2:1.2.0] C:\Users\adelk\.gradle\caches\8.10.2\transforms\d221757f531c672c2df2db4ebaa2cbf1\transformed\jetified-emoji2-1.2.0\AndroidManifest.xml:24:9-32:20
 136            android:name="androidx.startup.InitializationProvider"
 136-->[androidx.emoji2:emoji2:1.2.0] C:\Users\adelk\.gradle\caches\8.10.2\transforms\d221757f531c672c2df2db4ebaa2cbf1\transformed\jetified-emoji2-1.2.0\AndroidManifest.xml:25:13-67
-137            android:authorities="com.example.my_vpn_app.androidx-startup"
+137            android:authorities="com.example.LordVPN.androidx-startup"
 137-->[androidx.emoji2:emoji2:1.2.0] C:\Users\adelk\.gradle\caches\8.10.2\transforms\d221757f531c672c2df2db4ebaa2cbf1\transformed\jetified-emoji2-1.2.0\AndroidManifest.xml:26:13-68
 138            android:exported="false" >
 138-->[androidx.emoji2:emoji2:1.2.0] C:\Users\adelk\.gradle\caches\8.10.2\transforms\d221757f531c672c2df2db4ebaa2cbf1\transformed\jetified-emoji2-1.2.0\AndroidManifest.xml:27:13-37

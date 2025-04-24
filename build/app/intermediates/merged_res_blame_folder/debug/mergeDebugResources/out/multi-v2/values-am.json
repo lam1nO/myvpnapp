@@ -1,7 +1,7 @@
 {
     "logs": [
         {
-            "outputFile": "com.example.my_vpn_app-mergeDebugResources-43:/values-am/values-am.xml",
+            "outputFile": "com.example.LordVPN.app-mergeDebugResources-43:/values-am/values-am.xml",
             "map": [
                 {
                     "source": "C:\\Users\\adelk\\.gradle\\caches\\8.10.2\\transforms\\0098a6e93522fecc805d8900172003dc\\transformed\\preference-1.2.1\\res\\values-am\\values-am.xml",

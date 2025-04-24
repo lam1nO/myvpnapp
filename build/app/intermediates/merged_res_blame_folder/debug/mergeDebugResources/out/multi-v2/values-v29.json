@@ -1,8 +1,27 @@
 {
     "logs": [
         {
-            "outputFile": "com.example.my_vpn_app-mergeDebugResources-43:/values-v29/values-v29.xml",
+            "outputFile": "com.example.LordVPN.app-mergeDebugResources-43:/values-v29/values-v29.xml",
             "map": [
+                {
+                    "source": "D:\\MyProjects\\VPN_app\\android\\app\\src\\main\\res\\values-v29\\styles.xml",
+                    "from": {
+                        "startLines": "3",
+                        "startColumns": "4",
+                        "startOffsets": "59",
+                        "endLines": "11",
+                        "endColumns": "12",
+                        "endOffsets": "647"
+                    },
+                    "to": {
+                        "startLines": "3",
+                        "startColumns": "4",
+                        "startOffsets": "103",
+                        "endLines": "10",
+                        "endColumns": "12",
+                        "endOffsets": "548"
+                    }
+                },
                 {
                     "source": "C:\\Users\\adelk\\.gradle\\caches\\8.10.2\\transforms\\993621fa4cd666e2fd9e476adda8e337\\transformed\\jetified-openvpn_library-b3941ef040\\res\\values-v29\\values-v29.xml",
                     "from": {

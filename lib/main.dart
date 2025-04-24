@@ -5,9 +5,7 @@ import 'package:lucide_icons/lucide_icons.dart';
 import 'package:openvpn_flutter/openvpn_flutter.dart';
 import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:lucide_icons/lucide_icons.dart';
 import 'package:http/http.dart' as http;
-import 'dart:io';
 import 'package:flutter/services.dart' show rootBundle;
 import 'package:flutter/foundation.dart';
 
@@ -43,6 +41,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      title: 'Flutter Hello World',
       debugShowCheckedModeBanner: false,
       theme: ThemeData.dark().copyWith(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
@@ -240,8 +239,6 @@ class _VPNHomeScreenState extends State<VPNHomeScreen> {
       await engine.connect(
         config,
         "VPN Server",
-        username: vpnUsername,
-        password: vpnPassword,
         certIsRequired: true,
       );
     } catch (e) {
@@ -269,6 +266,13 @@ class _VPNHomeScreenState extends State<VPNHomeScreen> {
       return {'id': id, 'config': config};
     }
     return null;
+  }
+
+  Future<String> _getUserIdFromConfig() async {
+    final stored = await _loadStoredVpnConfig();
+    if (stored == null) return "";
+
+    return stored['id']!;
   }
 
   void _showCustomSnackBar(BuildContext context, String message) {
@@ -392,18 +396,18 @@ class _VPNHomeScreenState extends State<VPNHomeScreen> {
                         shape: BoxShape.circle,
                         gradient: isLoading
                             ? const LinearGradient(
-                          colors: [Color(0xFF13889E), Color(0xFF36B4A6)],
+                          colors: [Color(0xFF0294af), Color(0xFF26c4b2)],
                           begin: Alignment.topLeft,
                           end: Alignment.bottomRight,
                         )
                             : isConnected
                             ? const LinearGradient(
-                          colors: [Color(0xFF27E6B7), Color(0xFF109F99)],
+                          colors: [Color(0xFF0ffec3), Color(0xFF00b1a9)],
                           begin: Alignment.topLeft,
                           end: Alignment.bottomRight,
                         )
                             : const LinearGradient(
-                          colors: [Color(0xFFB52626), Color(0xFF6C1616)],
+                          colors: [Color(0xFFc71414), Color(0xFF770b0b)],
                           begin: Alignment.topLeft,
                           end: Alignment.bottomRight,
                         ),
@@ -414,7 +418,7 @@ class _VPNHomeScreenState extends State<VPNHomeScreen> {
                                 ? Color(0xFF13889E).withOpacity(0.55)
                                 : isConnected
                                 ? Color(0xFF27E6B7).withOpacity(0.55)
-                                : Color(0xFFB52626).withOpacity(0.45),
+                                : Color(0xFFc71414).withOpacity(0.45),
                             blurRadius: 30,
                             spreadRadius: 8,
                           ),
@@ -432,7 +436,23 @@ class _VPNHomeScreenState extends State<VPNHomeScreen> {
             ),
           ),
 
+          const SizedBox(height: 40),
 
+          // // Новый блок для отображения "Ваш ID: ..."
+          // FutureBuilder<String>(
+          //   future: _getUserIdFromConfig(), // Загрузка ID
+          //   builder: (context, snapshot) {
+          //     if (snapshot.connectionState == ConnectionState.waiting) {
+          //       return CircularProgressIndicator(); // Показываем индикатор загрузки
+          //     } else if (snapshot.hasError) {
+          //       return Text('Ошибка загрузки ID'); // Обработка ошибок
+          //     } else if (snapshot.hasData) {
+          //       return Text('Ваш ID: ${snapshot.data}', style: TextStyle(fontSize: 18));
+          //     } else {
+          //       return Text('ID не найден', style: TextStyle(fontSize: 18));
+          //     }
+          //   },
+          // ),
           const SizedBox(height: 40),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -447,11 +467,11 @@ class _VPNHomeScreenState extends State<VPNHomeScreen> {
     }
 
     return Scaffold(
-      backgroundColor: Color(0xFF090C17),
+      backgroundColor: Color(0xFF080b14),
       appBar: AppBar(
-        backgroundColor: Color(0xFF090C17),
+        backgroundColor: Color(0xFF080b14),
         centerTitle: true,
-        title: const Text('VPN', style: TextStyle(color: Colors.white)),
+        title: const Text('LordVPN', style: TextStyle(color: Colors.white, fontFamily: 'Laila', fontWeight: FontWeight.bold)),
         actions: [
           PopupMenuButton<int>(
             icon: const Icon(Icons.settings, color: Colors.white),
@@ -514,7 +534,10 @@ class _VPNHomeScreenState extends State<VPNHomeScreen> {
       ),
       body: Container(
         decoration: const BoxDecoration(
-          color: Color(0xFF090C17),
+          image: DecorationImage(
+            image: AssetImage("assets/images/background.png"),
+            fit: BoxFit.cover, // или .contain, .fill и т.д.
+          ),
         ),
         child: _buildBodyContent(),
       ),
@@ -567,7 +590,7 @@ class Ticker {
 }
 
 Future<String> loadVPNConfig(String configUrl) async {
-  final response = await http.get(Uri.parse("http://185.58.207.121:8000/vpn-config?id=$configUrl"));
+  final response = await http.get(Uri.parse("http://217.114.14.213:8000/vpn-config?id=$configUrl"));
   final jsonMap = json.decode(response.body);
   final rawConfig = jsonMap['config']; // строка с \n
 

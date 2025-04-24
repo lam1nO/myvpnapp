@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.my_vpn_app"
+    package="com.example.LordVPN"
     android:versionCode="1"
     android:versionName="1.0.0" >
 
@@ -36,10 +36,10 @@
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
 
     <permission
-        android:name="com.example.my_vpn_app.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION"
+        android:name="com.example.LordVPN.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION"
         android:protectionLevel="signature" />
 
-    <uses-permission android:name="com.example.my_vpn_app.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION" />
+    <uses-permission android:name="com.example.LordVPN.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION" />
 
     <application
         android:name="android.app.Application"
@@ -47,9 +47,9 @@
         android:debuggable="true"
         android:extractNativeLibs="true"
         android:icon="@mipmap/ic_launcher"
-        android:label="my_vpn_app" >
+        android:label="LordVPN" >
         <activity
-            android:name="com.example.my_vpn_app.MainActivity"
+            android:name="com.example.LordVPN.MainActivity"
             android:configChanges="orientation|keyboardHidden|keyboard|screenSize|smallestScreenSize|locale|layoutDirection|fontScale|screenLayout|density|uiMode"
             android:exported="true"
             android:hardwareAccelerated="true"
@@ -134,7 +134,7 @@
 
         <provider
             android:name="androidx.startup.InitializationProvider"
-            android:authorities="com.example.my_vpn_app.androidx-startup"
+            android:authorities="com.example.LordVPN.androidx-startup"
             android:exported="false" >
             <meta-data
                 android:name="androidx.emoji2.text.EmojiCompatInitializer"
